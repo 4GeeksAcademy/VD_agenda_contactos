@@ -1,3 +1,5 @@
+import { json } from "react-router";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -37,8 +39,56 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then((data) => setStore({contacts:data.contacts}))
 					.catch((error) => console.log(error))
 				},
-			
-			exampleFunction: () => {
+				
+				// funcion para crear contacto agenda
+				crearContactoAgenda: (fullName,email,phone,address) => {
+					
+					fetch('https://playground.4geeks.com/contact/agendas/agenda2/contacts', {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							"name": fullName,
+							"phone": phone,
+							"email": email,
+							"address": address
+							
+						})
+						
+					})
+					// console.log(fullName,phone)
+					.then((response) => {
+						
+						if (response.status === 201) {
+							getActions().obtenerContactosAgenda();	
+						} 
+						return response.json();
+					})
+					.catch((error) => console.log(error));
+				},
+				//funcion eliminar contacto agenda
+				eliminarContactoAgenda: (id) => {
+					
+					fetch('https://playground.4geeks.com/contact/agendas/agenda2/contacts/' + id, {
+						method: "DELETE",
+						headers: {
+							"Content-Type": "application/json"
+						},
+					})
+						.then((response) => {
+							if (response.status === 200) {
+								obtener_Usuario_Tarea()
+							}
+							return response.json();	
+						})			
+						.then((data) => {
+							console.log(data)
+						})
+						.catch((error) => console.log(error))
+				},
+				// funciones que trae el actions por defecto
+				exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
 			loadSomeData: () => {
