@@ -1,10 +1,19 @@
-import React,{useContext} from "react";
+import React,{useContext, useState} from "react";
 import { Context } from "../store/appContext";
 import EditContact from "../component/editContact.jsx";
 
-const CardContact = ({ name, phone, email, id, address }) => {
-	const { actions} = useContext(Context)
 
+const CardContact = ({ name, phone, email, id, address }) => {
+
+const [showModal,setShowModal]= useState(false);	
+const { actions} = useContext(Context)
+
+const modalEdit= () =>{
+	 setShowModal(true);
+}
+const closeModal= () =>{
+	setShowModal(false);
+}
 const contactDelete = ()=>{
 		actions.eliminarContactoAgenda(id);
 	};
@@ -20,7 +29,7 @@ const contactDelete = ()=>{
 				<div className="d-flex justify-content-between align-items-center">
 					<h5 className="card-title">{name}</h5>
 					<div className="ms-auto">
-                        <button className="btn btn-link p-0 me-2">
+                        <button className="btn btn-link p-0 me-2" onClick={modalEdit}>
                             <i className="fas fa-pencil-alt"></i>
                         </button>
                         <button className="btn btn-link p-0" onClick={contactDelete}>
@@ -35,7 +44,17 @@ const contactDelete = ()=>{
 				</div>
 			</div>
 		</div>
+		{showModal && (
+			<EditContact 
+						 closeModalWindow={closeModal} 
+						 name={name}
+						 email={email}
+						 phone={phone}
+						 address={address}
+						 id={id}/>
+		)}		
 	</div>
+	
 );
 };
 

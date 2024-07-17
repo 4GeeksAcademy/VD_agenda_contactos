@@ -57,7 +57,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 						
 					})
-					// console.log(fullName,phone)
 					.then((response) => {
 						
 						if (response.status === 201) {
@@ -66,6 +65,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return response.json();
 					})
 					.catch((error) => console.log(error));
+				},
+				//funcion para editar contacto,recibo por parametro el id del contacto a editar y recibo el objeto
+				// items para pasar los nuevos valores del contacto
+				editarContacto: (id, items) => {
+					fetch('https://playground.4geeks.com/contact/agendas/agenda2/contacts/' + id, {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							"name": items.name,
+							"phone": items.phone,
+							"email": items.email,
+							"address": items.address
+						})
+					})
+						.then((response) => {
+							if (response.status === 200) {
+								getActions().obtenerContactosAgenda();
+							}
+							return response.json();
+						})
+						.then((data) => {
+							console.log(data);
+						})
+						.catch((error) => console.log(error));
 				},
 				//funcion eliminar contacto agenda
 				eliminarContactoAgenda: (id) => {
@@ -77,16 +102,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 					})
 						.then((response) => {
-							if (response.status === 200) {
-								obtener_Usuario_Tarea()
+							
+							if (response.status == 200) {							
+								console.log(response)
+								getActions().obtenerContactosAgenda()
 							}
 							return response.json();	
 						})			
 						.then((data) => {
 							console.log(data)
+							
 						})
 						.catch((error) => console.log(error))
-				},
+						
+					},
+				
+				
 				// funciones que trae el actions por defecto
 				exampleFunction: () => {
 				getActions().changeColor(0, "green");

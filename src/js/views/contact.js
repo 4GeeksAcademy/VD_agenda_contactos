@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
 import "../../styles/demo.css";
 import CardContact from "../component/cardContact.jsx";
-import EditContact from "../component/editContact.jsx";
 import { Context } from "../store/appContext.js";
 
 const Contact = () => {
@@ -30,7 +28,7 @@ const Contact = () => {
 				/>
 
 			))}
-				<EditContact />
+				
 		</div>
 	);
 };
